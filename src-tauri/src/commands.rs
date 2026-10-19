@@ -69,7 +69,7 @@ fn release_page(version: &str) -> CmdResult<String> {
         return Err(format!("not a version: {version}"));
     }
     Ok(format!(
-        "https://github.com/2204601/workbench/releases/tag/video-studio-v{version}"
+        "https://github.com/jazmf-dx/desktop-apps/releases/tag/video-studio-v{version}"
     ))
 }
 
@@ -372,7 +372,7 @@ pub async fn ffmpeg_version() -> CmdResult<String> {
 mod release_page_tests {
     #[test]
     fn takes_only_a_version() {
-        let page = "https://github.com/2204601/workbench/releases/tag/video-studio-v0.2.0";
+        let page = "https://github.com/jazmf-dx/desktop-apps/releases/tag/video-studio-v0.2.0";
         assert_eq!(super::release_page("0.2.0").unwrap(), page);
         assert_eq!(super::release_page("v0.2.0").unwrap(), page);
         assert!(super::release_page("1.0.0-beta.1").is_ok());

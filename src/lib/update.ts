@@ -81,7 +81,7 @@ export function openReleaseNotes(v = version) {
 let busy = false;
 
 /** Same as `plugins.updater.endpoints` in src-tauri/tauri.conf.json. */
-const FEED = "https://github.com/2204601/workbench/releases/download/video-studio-updater/latest.json";
+const FEED = "https://github.com/jazmf-dx/desktop-apps/releases/download/video-studio-updater/latest.json";
 
 /**
  * The proxy the OS would use for the feed (PAC included). The updater's HTTP

@@ -14,12 +14,12 @@ AI と人が実装前に確認する **現在の前提**。機能要件、ロー
 | 編集の範囲 | キリはり、文字、スタンプ、切り替え、クリップの音量（利用者の依頼「キリはりして、スタンプや文字を入れたり、切り替えのアニメーション」）。BGM のトラック、複数の映像トラック、速さ、色の調整は入れていない |
 | データの置き場 | プロジェクトは利用者が選んだ `.vstudio`（JSON、素材はフルパス）。サムネイル・波形・コピーはアプリのキャッシュフォルダ。`settings.json`（アップデートの自動確認） |
 | 外との接続 | なし（自分から出る通信は updater の feed だけ） |
-| 配布の形 | workbench 同居（Platform Optional「複数ツール同居リポジトリ」。tag `video-studio-v*`、feed は固定リリース `video-studio-updater`） |
+| 配布の形 | desktop-apps 同居（Platform Optional「複数ツール同居リポジトリ」。tag `video-studio-v*`、feed は固定リリース `video-studio-updater`） |
 | 識別子 | `dev.workbench.video-studio`（一度配布したら変えない） |
 | productName | `Video Studio` |
 | 主な利用 OS | Windows（社内のほぼ全員）。macOS も Platform の基準どおり配布するが、確認の優先度は Windows を先にする |
 | desktop-base | 未採用（まだ無い）。Disk Analyzer の雛形から写す |
-| updater の署名鍵 | workbench の Secrets の鍵（ほかのツールと同じ。公開鍵 ID `50FEA12A1D8F04D1`） |
+| updater の署名鍵 | desktop-apps の Secrets の鍵（ほかのツールと同じ。公開鍵 ID `50FEA12A1D8F04D1`） |
 
 ## 人が決めること
 
