@@ -2,7 +2,7 @@
 // bundle.externalBin): src-tauri/binaries/ffmpeg-<target triple>[.exe].
 //
 //   bun run ffmpeg                       # for this computer
-//   bun run ffmpeg -- aarch64-apple-darwin
+//   bun run ffmpeg aarch64-apple-darwin
 //   FFMPEG_BIN=/usr/bin/ffmpeg bun run ffmpeg   # copy one you already have
 //
 // The builds are ffmpeg-static's (https://github.com/eugeneware/ffmpeg-static).
