@@ -1,9 +1,9 @@
 // Puts the ffmpeg sidecar where Tauri looks for it (tauri.conf.json
 // bundle.externalBin): src-tauri/binaries/ffmpeg-<target triple>[.exe].
 //
-//   npm run ffmpeg                       # for this computer
-//   npm run ffmpeg -- aarch64-apple-darwin
-//   FFMPEG_BIN=/usr/bin/ffmpeg npm run ffmpeg   # copy one you already have
+//   bun run ffmpeg                       # for this computer
+//   bun run ffmpeg -- aarch64-apple-darwin
+//   FFMPEG_BIN=/usr/bin/ffmpeg bun run ffmpeg   # copy one you already have
 //
 // The builds are ffmpeg-static's (https://github.com/eugeneware/ffmpeg-static).
 // Its release tag is not the ffmpeg version of every file in it (below), so

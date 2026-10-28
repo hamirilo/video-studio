@@ -1,5 +1,5 @@
 // Dev-only stand-in for the Rust backend, used when the UI is opened in a
-// normal browser (`npm run dev`) instead of inside Tauri (Platform playbook:
+// normal browser (`bun run dev`) instead of inside Tauri (Platform playbook:
 // ブラウザで UI を作る). Answers the same commands as src/lib/api.ts with the
 // same types; change both in the same PR.
 //
@@ -78,7 +78,7 @@ async function handle(cmd: string, a: Record<string, unknown>): Promise<unknown>
     case "export_video":
       // Kept for a look from the console (and the end-to-end check in docs/ARCHITECTURE.md).
       (window as unknown as { lastExportJob: unknown }).lastExportJob = a.job;
-      throw "ブラウザ版では書き出せません（ffmpeg が要ります）。npm run tauri dev で試してください";
+      throw "ブラウザ版では書き出せません（ffmpeg が要ります）。bun run tauri dev で試してください";
     case "save_project":
       projects.set(a.path as string, a.text as string);
       return null;

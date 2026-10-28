@@ -89,18 +89,18 @@ iPhone の HEVC（Windows）、AVCHD（.mts）、ProRes、10bit の H.264 など
 開発の基準は [desktop-platform](https://github.com/jazmf-dx/desktop-platform) に従う。前提は [decisions/project-context.md](decisions/project-context.md)。コマンドは `video-studio/` で実行する。
 
 ```bash
-npm install
-npm run ffmpeg         # ffmpeg を src-tauri/binaries/ に置く（初回だけ。tauri の build に要る）
-npm run tauri dev      # アプリを起動
-npm run dev            # ブラウザで UI だけ（モック。src/dev/mockBackend.ts。書き出しはできない）
-npm test               # cargo test（本物の ffmpeg で書き出しまで）+ tsc --noEmit + vitest
-npm run lint           # eslint + cargo fmt --check + clippy
+bun install
+bun run ffmpeg         # ffmpeg を src-tauri/binaries/ に置く（初回だけ。tauri の build に要る）
+bun run tauri dev      # アプリを起動
+bun run dev            # ブラウザで UI だけ（モック。src/dev/mockBackend.ts。書き出しはできない）
+bun run test           # cargo test（本物の ffmpeg で書き出しまで）+ tsc --noEmit + vitest
+bun run lint           # eslint + cargo fmt --check + clippy
 cargo run --release --example export --manifest-path src-tauri/Cargo.toml -- job.json out.mp4   # 画面なしで書き出す
 ```
 
-- 手元の ffmpeg を使うときは `FFMPEG_BIN=/usr/bin/ffmpeg npm run ffmpeg`
+- 手元の ffmpeg を使うときは `FFMPEG_BIN=/usr/bin/ffmpeg bun run ffmpeg`
 - Linux で Rust をビルドするには `libwebkit2gtk-4.1-dev` などが要る（CI の `test` job と同じ）
-- ブラウザ版（`npm run dev`）は Chromium の制限で H.264 を再生できないことがある。WebM（VP9）の動画で試す
+- ブラウザ版（`bun run dev`）は Chromium の制限で H.264 を再生できないことがある。WebM（VP9）の動画で試す
 
 ## 構成
 
@@ -129,7 +129,7 @@ cargo run --release --example export --manifest-path src-tauri/Cargo.toml -- job
 
 desktop-apps の決まり（リポジトリ直下の README「リポジトリの決まりごと」）に従う。
 
-1. バージョンを `package.json`、`src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml` の 3 か所で上げ、lockfile も更新する（`npm version X --no-git-tag-version`、`cargo update -p video-studio --manifest-path src-tauri/Cargo.toml`）
+1. バージョンを `package.json`、`src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml` の 3 か所で上げ、lockfile も更新する（`bun pm version X --no-git-tag-version`、`cargo update -p video-studio --manifest-path src-tauri/Cargo.toml`）
 2. `CHANGELOG.md` に `## <version>` の節を書く（変更点 / ダウンロード / 注意。リリースの本文になる。アップデートのダイアログと設定の「更新内容」からこのページへ飛ぶ）
 3. `chore: video-studio v<version>` を PR で `main` に入れる
 4. Actions › **video-studio** › **Run workflow** で `main`、`release` にチェックを入れて実行する。`video-studio-v<version>` の tag を push しても同じ

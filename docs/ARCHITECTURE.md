@@ -89,4 +89,4 @@ video-studio/
 - `render.rs`：フレームの丸め、xfade / concat のつなぎ方、アニメーションの式、危ない値を断る
 - `tests/ipc.rs`：本物の ffmpeg で、テスト用の動画を作って probe → prepare → export（切り替え 2 つ、写真、文字 2 つ）→ 書き出したものを probe（大きさ、長さ、音）
 - `timeline.test.ts`、`anim.test.ts`、`source.test.ts`（vitest）：layout、分割、削除、並べ替え、切り詰め、段、アニメーションの値
-- UI はブラウザのモック（`npm run dev`）で確かめる。モックの書き出しは、作ったジョブを `window.lastExportJob` に残す。動画のパスを本物に置き換えれば `examples/export.rs` で書き出せる
+- UI はブラウザのモック（`bun run dev`）で確かめる。モックの書き出しは、作ったジョブを `window.lastExportJob` に残す。動画のパスを本物に置き換えれば `examples/export.rs` で書き出せる

@@ -21,7 +21,7 @@
   - `src/lib/api.ts` の `ExportJob` ↔ `render.rs` の `ExportJob`（`tests/ipc.rs`）
 - 素材のファイルは読むだけ。書くのはユーザーが選んだ `.vstudio` と `.mp4`、キャッシュ、設定、ログだけ
 - ffmpeg に渡す文字列は `render.rs` で組み立て、名前は許したものだけ、数字は有限の値だけ。シェルは通さない
-- 同梱の ffmpeg の版を変えるときは `scripts/fetch-ffmpeg.mjs` の RELEASE と SHA-256、README「ffmpeg について」、decisions を一緒に直し、`npm test`（本物の ffmpeg で書き出すテストがある）を通す
+- 同梱の ffmpeg の版を変えるときは `scripts/fetch-ffmpeg.mjs` の RELEASE と SHA-256、README「ffmpeg について」、decisions を一緒に直し、`bun run test`（本物の ffmpeg で書き出すテストがある）を通す
 - 操作はコマンド表 `src/lib/commands.ts` にまず足す
 - Rust コマンドは `src/lib/api.ts` のラッパ経由で呼ぶ。モック `src/dev/mockBackend.ts` も同じ PR で更新する
 - zustand の selector で関数・配列・オブジェクトを新しく作って返さない（無限に再描画する）
@@ -29,13 +29,13 @@
 ## コマンド
 
 ```bash
-npm install
-npm run ffmpeg         # 同梱の ffmpeg を取ってくる（初回）
-npm run tauri dev      # アプリを起動
-npm run dev            # ブラウザで UI だけ（モック）
-npm test               # cargo test + tsc --noEmit + vitest
-npm run lint
-npm run tauri build    # 配布用ビルド（署名鍵が要る。README「リリース」）
+bun install
+bun run ffmpeg         # 同梱の ffmpeg を取ってくる（初回）
+bun run tauri dev      # アプリを起動
+bun run dev            # ブラウザで UI だけ（モック）
+bun run test           # cargo test + tsc --noEmit + vitest（`bun test` は Bun のテストランナーなので使わない）
+bun run lint
+bun run tauri build    # 配布用ビルド（署名鍵が要る。README「リリース」）
 ```
 
 ## 変えないもの
