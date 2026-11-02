@@ -55,7 +55,7 @@ Windows は ⌘ → Ctrl。
 
 ## インストール
 
-[Releases](https://github.com/jazmf-dx/desktop-apps/releases?q=video-studio) から入れる。Apple や Microsoft の署名をしていないので、**初回だけ** 警告が出る。
+[Releases](https://github.com/hamirilo/video-studio/releases) から入れる。Apple や Microsoft の署名をしていないので、**初回だけ** 警告が出る。
 
 - **Windows**：`-setup.exe` を実行 → SmartScreen が出たら「詳細情報」→「実行」
 - **macOS**：`.dmg` を開いて「アプリケーション」へコピー → 起動すると「開発元を検証できない」と出るので「完了」→ **システム設定 › プライバシーとセキュリティ** の下にある「このまま開く」。ターミナルで `xattr -dr com.apple.quarantine "/Applications/Video Studio.app"` でもよい
@@ -86,7 +86,7 @@ iPhone の HEVC（Windows）、AVCHD（.mts）、ProRes、10bit の H.264 など
 
 ## 開発
 
-開発の基準は [desktop-platform](https://github.com/jazmf-dx/desktop-platform) に従う。前提は [decisions/project-context.md](decisions/project-context.md)。コマンドは `video-studio/` で実行する。
+開発の基準は [desktop-platform](https://github.com/jazmf-dx/desktop-platform) に従う。前提は [decisions/project-context.md](decisions/project-context.md)。コマンドはリポジトリの直下で実行する。
 
 ```bash
 bun install
@@ -123,18 +123,28 @@ cargo run --release --example export --manifest-path src-tauri/Cargo.toml -- job
 
 雛形（`proxy.rs`、`settings.rs`、`log.ts`、`titleBar.ts`、`update.ts`、`menuBar.ts`、`Toasts.tsx`、ビルド設定）は [Disk Analyzer](../disk-analyzer/) から写した。desktop-base ができたら差し替える。
 
-設定画面の枠と行（`SettingsFrame.tsx`）と「アップデート」の節（`UpdateSection.tsx`）は stockroom と同じファイルを置いている（desktop-platform UI §9）。直すときはすべてのツールで同じに直す。
+設定画面の枠と行（`SettingsFrame.tsx`）と「アップデート」の節（`UpdateSection.tsx`）は stockroom と同じファイルを置いている（desktop-platform UI §9）。直すときは hamirilo/workbench のツールや stockroom と同じに直す。
 
 ## リリース
 
-desktop-apps の決まり（リポジトリ直下の README「リポジトリの決まりごと」）に従う。
+2026-11 に hamirilo/workbench（desktop-apps）から単独のリポジトリに分けた。それまでの履歴もこのリポジトリにある。
 
 1. バージョンを `package.json`、`src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml` の 3 か所で上げ、lockfile も更新する（`bun pm version X --no-git-tag-version`、`cargo update -p video-studio --manifest-path src-tauri/Cargo.toml`）
 2. `CHANGELOG.md` に `## <version>` の節を書く（変更点 / ダウンロード / 注意。リリースの本文になる。アップデートのダイアログと設定の「更新内容」からこのページへ飛ぶ）
 3. `chore: video-studio v<version>` を PR で `main` に入れる
-4. Actions › **video-studio** › **Run workflow** で `main`、`release` にチェックを入れて実行する。`video-studio-v<version>` の tag を push しても同じ
-5. CI が tag と version の一致、CHANGELOG の節、更新ファイルの有無を確かめ、`Video Studio v<version>` のリリースを作って公開し、固定リリース `video-studio-updater` の `latest.json` を差し替える
+4. Actions › **build** › **Run workflow** で `main`、`release` にチェックを入れて実行する。`v<version>` の tag を push しても同じ
+5. CI が tag と version の一致、CHANGELOG の節、更新ファイルの有無を確かめ、`Video Studio v<version>` のリリースを作って公開し、`latest.json` も添付する。配布済みのアプリは `releases/latest/download/latest.json`（`tauri.conf.json` の `plugins.updater.endpoints`）を見て更新するので、このリリースが「Latest」になった時点で届く
 
 製品名に空白があるので、CI はリリースに載せるファイル名の空白を `_` に変える（GitHub が空白を `.` に変えて、`latest.json` の URL とずれるため）。
 
-署名鍵は desktop-apps の Secrets（`TAURI_SIGNING_PRIVATE_KEY`、`TAURI_SIGNING_PRIVATE_KEY_PASSWORD`。ほかのツールと共有）。**`video-studio-updater` のリリースと tag は消さない**（配布済みのアプリが更新を見つけられなくなる）。
+署名鍵はこのリポジトリの Secrets（`TAURI_SIGNING_PRIVATE_KEY`、`TAURI_SIGNING_PRIVATE_KEY_PASSWORD`）。hamirilo/workbench のツールと同じ鍵（公開鍵 ID `50FEA12A1D8F04D1`）。アプリのリリース以外（下書きでないプレリリースでもないもの）を作ると「Latest」が移って更新が届かなくなるので、作らない。
+
+分ける前の版（配信先 `jazmf-dx/desktop-apps` の `video-studio-updater`）を入れた PC には、そこの `latest.json` をこのリポジトリの最初のリリースの `latest.json` に差し替えると、更新が届いてこのリポジトリを見るようになる（鍵が同じなので作り直しは要らない）。
+
+## フォークで使うとき
+
+社内版は、このリポジトリのフォーク jazmf-dx/video-studio で作る（フォークの `docs/CORP.md`）。stockroom と同じ決まりにする。
+
+- フォークに置くのは新しいファイルだけにする（社内版の設定 `src-tauri/tauri.corp.conf.json`、社内版のワークフローなど）。このリポジトリにあるファイルをフォークで変えると、取り込むたびに衝突する
+- フォークで見つけた不具合や改善は、このリポジトリで直してから取り込む
+- フォークのビルドは、重ねる設定ファイル（`tauri build --config`）で `identifier`・`productName`・`plugins.updater` の `pubkey` と `endpoints` をその版のものにする。更新を確かめるときのプロキシの判定と「更新内容を見る」のページは `endpoints` の 1 つ目のリポジトリから決まる（`src-tauri/src/feed.rs`）。リリースの tag が `v<版>` でなければ、ビルドのときに `VIDEO_STUDIO_TAG_PREFIX`（例：`corp-`）で頭を合わせる
